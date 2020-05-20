@@ -6,6 +6,7 @@
 ***********************************************************/
 
 const ApolloServer = require("apollo-server")
+const dbConfig = require('./config/database.config') (mongoConnection)
 
 const app  = new ApolloServer({ typeDefs, resolvers });
 
