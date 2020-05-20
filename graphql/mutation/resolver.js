@@ -5,5 +5,8 @@ exports.resolvers = {
 
     Query : {
         message
+    },
+    Mutation : {
+        register
     }
 }
