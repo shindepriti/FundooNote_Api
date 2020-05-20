@@ -6,10 +6,8 @@
  * @since    : 20/5/2020
 **************************************************************/
 
-class valid {
 
-    emailRegx(){
-        return [/^([a-zA-Z]{3,}([._+-]?[a-zA-Z0-9])*[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]*)$/,'is invalid']
-    }
+exports.emailRegx=()=>{
+
+        return /^([a-zA-Z]{3,}([._+-]?[a-zA-Z0-9])*[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]*)$/
 }
-module.exports = new valid();
