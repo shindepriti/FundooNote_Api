@@ -6,7 +6,6 @@
  * @since    : 19/5/2020
 ***************************************************************/
 
-require('dotenv').config();
 const mongoose = require("mongoose")
 
 module.exports = mongoConnection=()=> {

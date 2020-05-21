@@ -4,12 +4,12 @@
  * @author  : priti shinde
  * @since   : 19/5/2020
 *****************************************************************/
-
+require('dotenv').config();
 const {ApolloServer} = require("apollo-server")
 const dbConfig = require('./config/database.config') (mongoConnection)
 
-const {typeDefs} = require("./graphql/mutation/schema")
-const resolvers = require("./graphql/mutation/resolver").resolvers;
+const {typeDefs} = require("./graphql/schema")
+const resolvers = require("./graphql/resolver").resolvers;
 const app  = new ApolloServer({ typeDefs, resolvers });
 
 

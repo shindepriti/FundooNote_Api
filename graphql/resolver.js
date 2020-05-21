@@ -6,17 +6,20 @@
  * @since    : 20/5/2020
 ***************************************************************/
 
-const message = require('../mutation/query').message
-const register = require('../mutation/user').register
-const login = require("../mutation/user").login
+const message = require('./query').message
+const getAllUser = require("./query").getAllUser
+const register = require('./mutation/user').register
+const login = require("./mutation/user").login
 
 exports.resolvers = {
 
     Query : {
-        message
+        message,
+        getAllUser
+
     },
     Mutation : {
         register,
-        login
+        login        
     }
 }

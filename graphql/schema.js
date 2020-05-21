@@ -19,16 +19,20 @@ type User {
 
 type Auth  {
     message : String!
-    success : Boolean!   
+    success : Boolean! 
+    token : String!
+    user : User 
 }
 
 type Query {
     message : String!
+    getAllUser : [User]
 }
 
 type Mutation {
     register(firstName:String!,lastName:String!,emailId:String!,password:String!):Auth
     login(emailId:String!,password:String!):Auth
+    
 }
 `
 module.exports = { typeDefs }

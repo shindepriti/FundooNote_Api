@@ -7,6 +7,14 @@
 ***************************************************************/
 const userModel = require('../../models/userModel')
 const jsonToken = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
+const sendMail = require("../../service/sendMail")
+
+hash =(password)=>{
+    let salt = bcrypt.genSaltSync(10);
+    let hashPassword = bcrypt.hashSync(password,salt)
+    return hashPassword
+}
 
 exports.register = async (parent,args)=>{
     
@@ -28,14 +36,16 @@ exports.register = async (parent,args)=>{
                 firstName : args.firstName,
                 lastName : args.lastName,
                 emailId : args.emailId,
-                password : args.password
+                password : hash(args.password)
+                
             })
+            console.log(newUser)
             var userSave = await newUser.save()
                 if(userSave){
                     return {
                         message : 'Registartion Successfull',
-                        success : true
-                        
+                        success : true,
+                        user : newUser 
                     }
                 }   
                 else{
@@ -47,25 +57,24 @@ exports.register = async (parent,args)=>{
             
 }
 
-exports.login =  (parent,args) => {
+exports.login =  async(parent,args) => {
 
-    if(args.password.length < 8){
-        throw new Error("Password Contain 8 Character")
-    }
-    let user = userModel.findOne({emailId : args.emailId})
-    let token = jsonToken.sign({password:args.password},"secretkey" ,{expiresIn :"1hr"})
-        if(user){
-            return {
-                message : 'login Successfull',
-                success : true,
-                token   : token
-            }
-        }   
-        else{
-            return{
-            message : 'Inavlid User, Please Register First To Login',
-            success : false
-            }
+    let user = await userModel.findOne({emailId : args.emailId})
+    let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
+    console.log(user)    
+    if(user.length>0){
+        return{
+            message : 'login Successfull',
+            success : true,
+            token   : token
         }
+    }   
+    else{
+         return {
+            message : 'Inavlid User, Please Register First To Login',
+            success : false  
+        }
+    }
            
 }
+
