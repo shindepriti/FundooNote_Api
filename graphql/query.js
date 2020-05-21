@@ -11,6 +11,11 @@ exports.message = () =>{
 }
 
 exports.getAllUser = () =>{
-   const user = userModel.find().exec()
-        return user
+   const users = userModel.find().exec()
+        return users
+}
+
+exports.getUserById =(root,args)=>{
+    const user = userModel.findById(args.id).exec()
+    return user
 }
