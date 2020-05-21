@@ -32,7 +32,7 @@ type Query {
 type Mutation {
     register(firstName:String!,lastName:String!,emailId:String!,password:String!):Auth
     login(emailId:String!,password:String!):Auth
-    
+    forgotPassword(emailId:String!):Auth
 }
 `
 module.exports = { typeDefs }

@@ -78,3 +78,20 @@ exports.login =  async(parent,args) => {
            
 }
 
+exports.forgotPassword = (parent,args,context)=>{
+    let user = userModel.findOne({emailId:args.emailId})
+    let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
+    const url = `http://localhost:8080/resetPassword/${token}`;
+    sendMail.sendEmail(url)
+    if(user){
+        return{
+            message:"Token Generated Sucessfully",
+            success:true,
+        }
+    }else{
+        return{
+            message:" invalid User",
+            success:false
+        }
+    }
+}
