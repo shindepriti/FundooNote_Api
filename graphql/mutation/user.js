@@ -9,7 +9,7 @@ const userModel = require('../../models/userModel')
 const jsonToken = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const sendMail = require("../../service/sendMail")
-
+const uservalid = require("./userValidation")
 hash =(password)=>{
     let salt = bcrypt.genSaltSync(10);
     let hashPassword = bcrypt.hashSync(password,salt)
@@ -19,13 +19,16 @@ hash =(password)=>{
 exports.register = async (parent,args)=>{
     
     let emailValid = /^([a-zA-Z]{3,}([._+-]?[a-zA-Z0-9])*[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]*)$/;
-        
+        if (args.firstName < 3){
+            throw new Error("First Atleast Contain 3 character")
+        }
         if(!emailValid.test(args.emailId)){
             throw new Error("Email Not Valid");
         }
         if(args.password.length < 8){
-            throw new Error("Password Contain 8 Character")
+            throw new Error("Password must  Contain 8 Character")
         }
+    
         let user = await userModel.find({
         emailId :args.emailId
         })
@@ -53,45 +56,54 @@ exports.register = async (parent,args)=>{
                     message : ' Registration Unsuccessfull',
                     success : false
                     }
-                }
-            
+               }
+                   
 }
 
 exports.login =  async(parent,args) => {
+    let emailValid = /^([a-zA-Z]{3,}([._+-]?[a-zA-Z0-9])*[@][a-zA-Z0-9]+[.][a-zA-Z]{2,4}[.]?[a-zA-Z]*)$/;
+        
+        if(!emailValid.test(args.emailId)){
+            throw new Error("Email Not Valid");
+        }
 
-    let user = await userModel.findOne({emailId : args.emailId})
-    let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
-    console.log(user)    
-    if(user.length>0){
-        return{
-            message : 'login Successfull',
-            success : true,
-            token   : token
-        }
-    }   
-    else{
-         return {
-            message : 'Inavlid User, Please Register First To Login',
-            success : false  
-        }
-    }
-           
+        let user = await userModel.findOne({emailId : args.emailId})
+        let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
+        console.log(user)
+        let newPassword = bcrypt.compare(args.password,user.password)   
+        if(user==undefined){
+            return{
+                message : 'Inavlid User, Please Register First To Login',
+                success : false
+            }
+        }   
+        else{
+            return {
+                message : 'login Successfull',
+                success : true,
+                token   : token
+            }
+        }           
 }
 
 exports.forgotPassword = (parent,args,context)=>{
     let user = userModel.findOne({emailId:args.emailId})
     let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
-    const url = `http://localhost:8080/resetPassword/${token}`;
+    const url = `http://localhost:3000/graphql?token=${token}`;
     sendMail.sendEmail(url)
-    if(user){
+    if(user==undefined){
         return{
-            message:"Token Generated Sucessfully",
-            success:true,
+            message:" Invalid User,Please Register First",
+            success:false
+            
         }
     }else{
         return{
-            message:" invalid User",
-            success:false
+            message:"Token Generated Sucessfully",
+            success:true,
+           
         }
     }
 }
+
+
