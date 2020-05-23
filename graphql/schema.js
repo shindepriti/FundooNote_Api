@@ -18,7 +18,7 @@ type User {
     password  : String!
 }
 
-type Auth  {
+type Response  {
     message : String!
     success : Boolean! 
     token : String!
@@ -32,10 +32,10 @@ type Query {
 }
 
 type Mutation {
-    register(firstName:String!,lastName:String!,emailId:String!,password:String!):Auth
-    login(emailId:String!,password:String!):Auth
-    forgotPassword(emailId:String!):Auth
-    resetPassword(password:String!):Auth
+    register(firstName:String!,lastName:String!,emailId:String!,password:String!):Response
+    login(emailId:String!,password:String!):Response
+    forgotPassword(emailId:String!):Response
+    resetPassword(password:String!):Response
 }
 `
 module.exports = { typeDefs }
