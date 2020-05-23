@@ -1,0 +1,8 @@
+
+{
+
+    "getUserById": "query {getUserById(id:\"5ec684c32a19f760b6f72c63\"){firstName }}"
+
+}
+
+
