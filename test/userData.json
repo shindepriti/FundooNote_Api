@@ -3,9 +3,12 @@
 
     "getUserById": "query {getUserById(id:\"5ec684c32a19f760b6f72c63\"){firstName }}",
 
-    "login" : "mutation {login(emailId:\"pritishinde34@gmail.com\"password:\"9623946752\"){message success}}"
+    "login" : "mutation {login(emailId:\"pritishinde34@gmail.com\"password:\"9623946752\"){message success}}",
 
-   
+    "forgotPassword": "mutation {forgotPassword(emailId:\"pritishinde34@gmail.com\"){message success}}" 
+
+    
+
 }
 
 
