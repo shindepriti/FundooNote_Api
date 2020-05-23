@@ -30,4 +30,22 @@ describe(`User Api Test`,() =>{
         })
     })
 
+    it(`givenUser_whenLogin_shouldReturnSucessMessage`,(done)=>{
+        request.post('/graphql')
+        .send({ query: readFile().login })
+        .expect(200)
+        .end((err,res) =>{
+            if (err) {
+                return done(err);
+            }
+            expect(JSON.parse(res.text).data.login.message).to.equals("login Successfull");
+            expect(JSON.parse(res.text).data.login.success).to.equals(true);
+            done();
+        })
+    })
+
+     
+
+
+
 })
