@@ -9,7 +9,7 @@ const userModel = require('../../models/userModel')
 const jsonToken = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const sendMail = require("../../service/sendMail")
-const uservalid = require("./userValidation")
+
 hash =(password)=>{
     let salt = bcrypt.genSaltSync(10);
     let hashPassword = bcrypt.hashSync(password,salt)
@@ -104,6 +104,45 @@ exports.forgotPassword = (parent,args,context)=>{
            
         }
     }
+}
+
+exports.resetPassword = (parent,args,context)=>{
+    
+    console.log(context.authorization);
+    const token = context.authorization ; 
+    if (token) {
+        let authUser ;
+        try{
+            authUser = jsonToken.verify(token, "secretkey")
+        }catch(err){
+            throw new Error("Invalid authentication token.")
+        }
+        console.log(authUser.emailId)
+        let user = userModel.findOne({emailId:authUser.emailId})
+        if(!user){
+            throw new Error("Passord reset link is invalid or Expire")
+        }
+    }else{
+        throw new Error("Invalid user request ")
+    }
+
+    if(args.password < 8){
+        throw new Error("Password should contain minimum 8 Character")
+    }
+        let newPassword = bcrypt.hashSync(args.password,10)
+        let updatePassword = userModel.updateOne({id:args._id},{password:newPassword})
+            if(updatePassword){
+                return {
+                    message : "Password Reset Sucessfully",
+                    success : true
+                }
+            }else{
+                return {
+                    message:"Error in Reset password",
+                    success:false
+                }
+            }
+
 }
 
 

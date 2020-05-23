@@ -10,9 +10,15 @@ const dbConfig = require('./config/database.config') (mongoConnection)
 
 const {typeDefs} = require("./graphql/schema")
 const resolvers = require("./graphql/resolver").resolvers;
-const app  = new ApolloServer({ typeDefs, resolvers });
+const app  = new ApolloServer({ typeDefs, resolvers , 
+  context : ({req}) => ({
+    authorization : req.headers.authorization
+      
+    } )
+  });
 
 
 app.listen(process.env.PORT,() =>{
   console.log(`Server Listening On Port ${process.env.PORT}`)
 })
+module.exports = app 

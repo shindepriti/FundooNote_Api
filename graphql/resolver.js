@@ -13,6 +13,7 @@ const getUserById = require("./query").getUserById
 const register = require('./mutation/user').register
 const login = require("./mutation/user").login
 const forgotPassword = require("../graphql/mutation/user").forgotPassword
+const resetPassword = require("../graphql/mutation/user").resetPassword
 exports.resolvers = {
 
     Query : {
@@ -24,7 +25,8 @@ exports.resolvers = {
     Mutation : {
         register,
         login,
-        forgotPassword
+        forgotPassword,
+        resetPassword
         
     }
 }
