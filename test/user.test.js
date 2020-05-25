@@ -1,3 +1,11 @@
+/***************************************************************
+ * @purpose  : Test Api  
+ * @file     : user.test.js              
+ * @overview : Test Cases To Test Api  
+ * @author   : priti shinde
+ * @since    : 23/5/2020
+***************************************************************/
+
 const chai = require("chai")
 const chaiHttp = require("chai-http")
 const app = require('../server')
@@ -17,7 +25,7 @@ function readFile() {
 
 describe(`User Api Test`,() =>{
 
-    it(`givenUser_whenStoreInDatabase_shouldReturnUserById`,(done)=>{
+    it.skip(`givenUser_whenStoreInDatabase_shouldReturnUserById`,(done)=>{
         request.post('/graphql')
         .send({ query: readFile().getUserById })
         .expect(200)
@@ -30,7 +38,7 @@ describe(`User Api Test`,() =>{
         })
     })
 
-    it(`givenUser_whenLoginProper_shouldReturnSucessMessage`,(done)=>{
+    it.skip(`givenUser_whenLoginProper_shouldReturnSucessMessage`,(done)=>{
         request.post('/graphql')
         .send({ query: readFile().login })
         .expect(200)
@@ -43,7 +51,21 @@ describe(`User Api Test`,() =>{
         })
     })
 
-    it(`givenUser_whenForgotPassword_shouldReturnTokenMessage`,(done)=>{
+    it(`givenUser_whenRegisterProper_shouldReturnSucessMessage`,(done)=>{
+        request.post('/graphql')
+        .send({ query: readFile().register })
+        .expect(400)
+        .end((err,res) =>{
+            if (err) {
+                return done(err);
+            }
+            expect(JSON.parse(res.text).data.register.message).to.equals("register Successfull");
+            done();
+        })
+    })
+
+
+    it.skip(`givenUser_whenForgotPassword_shouldReturnTokenMessage`,(done)=>{
         request.post('/graphql')
         .send({ query: readFile().forgotPassword })
         .expect(200)
@@ -56,6 +78,21 @@ describe(`User Api Test`,() =>{
             done();
         })
     })
+
+    it.skip(`givenUser_whenResetPassword_shouldReturnTokenMessage`,(done)=>{
+        request.post('/graphql')
+        .send({ query: readFile().resetPassword })
+        .expect(200)
+        .end((err,res) =>{
+            if (err) {
+                return done(err);
+            }
+            expect(JSON.parse(res.text).data.resetPassword.message).to.equals("Password Reset Sucessfully");
+            expect(JSON.parse(res.text).data.resetPassword.success).to.equals(true);
+            done();
+        })
+    })
+
 
     
 

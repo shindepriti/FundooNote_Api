@@ -1,11 +1,14 @@
-
 {
 
     "getUserById": "query {getUserById(id:\"5ec684c32a19f760b6f72c63\"){firstName }}",
 
     "login" : "mutation {login(emailId:\"pritishinde34@gmail.com\"password:\"9623946752\"){message success}}",
 
-    "forgotPassword": "mutation {forgotPassword(emailId:\"pritishinde34@gmail.com\"){message success}}" 
+    "forgotPassword": "mutation {forgotPassword(emailId:\"pritishinde34@gmail.com\"){message success}}" ,
+
+    "resetPassword" : "mutation {resetPassword(password:\"9623946752\"){message success} }",
+
+    "register" : "mutation {register(firstName:\"priti\" lastName:\"shinde\" emailId:\"shinde@gmail.com\" password:\"shinde123\") {message success}"
 
     
 
