@@ -9,7 +9,7 @@ const userModel = require('../../models/userModel')
 const jsonToken = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const sendMail = require("../../service/sendMail")
-
+const secretkey = process.env.SECRETKEY
 hash =(password)=>{
     let salt = bcrypt.genSaltSync(10);
     let hashPassword = bcrypt.hashSync(password,salt)
@@ -68,7 +68,7 @@ exports.login =  async(parent,args) => {
         }
 
         let user = await userModel.findOne({emailId : args.emailId})
-        let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
+        let token = jsonToken.sign({emailId:args.emailId},secretkey ,{expiresIn :"1hr"})
         console.log(user)
         let newPassword = bcrypt.compare(args.password,user.password)   
         if(user==undefined){
@@ -88,7 +88,7 @@ exports.login =  async(parent,args) => {
 
 exports.forgotPassword = (parent,args,context)=>{
     let user = userModel.findOne({emailId:args.emailId})
-    let token = jsonToken.sign({emailId:args.emailId},"secretkey" ,{expiresIn :"1hr"})
+    let token = jsonToken.sign({emailId:args.emailId},secretkey ,{expiresIn :"1hr"})
     const url = `http://localhost:3000/graphql?token=${token}`;
     sendMail.sendEmail(url)
     if(user==undefined){
@@ -113,7 +113,7 @@ exports.resetPassword = (parent,args,context)=>{
     if (token) {
         let authUser ;
         try{
-            authUser = jsonToken.verify(token, "secretkey")
+            authUser = jsonToken.verify(token, secretkey)
         }catch(err){
             throw new Error("Invalid authentication token.")
         }
