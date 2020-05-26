@@ -9,6 +9,7 @@
 const message = require('./query').message
 const getAllUser = require("./query").getAllUser
 const getUserById = require("./query").getUserById
+const getUserByName = require("./query").getUserByName
 
 const register = require('./mutation/user').register
 const login = require("./mutation/user").login
@@ -19,7 +20,8 @@ exports.resolvers = {
     Query : {
         message,
         getAllUser,
-        getUserById
+        getUserById,
+        getUserByName
 
     },
     Mutation : {

@@ -25,7 +25,7 @@ function readFile() {
 
 describe(`User Api Test`,() =>{
 
-    it.skip(`givenUser_whenStoreInDatabase_shouldReturnUserById`,(done)=>{
+    it(`givenUser_whenStoreInDatabase_shouldReturnUserById`,(done)=>{
         request.post('/graphql')
         .send({ query: readFile().getUserById })
         .expect(200)
@@ -79,10 +79,11 @@ describe(`User Api Test`,() =>{
         })
     })
 
-    it.skip(`givenUser_whenResetPassword_shouldReturnTokenMessage`,(done)=>{
+    it.only(`givenUser_whenResetPassword_shouldReturnTokenMessage`,(done)=>{
         request.post('/graphql')
-        .send({ query: readFile().resetPassword })
-        .expect(200)
+        .send({ query: readFile().resetPassword ,Headers: readFile().resetPassword})
+        
+        .expect(400)
         .end((err,res) =>{
             if (err) {
                 return done(err);

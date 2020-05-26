@@ -6,11 +6,10 @@
 
     "forgotPassword": "mutation {forgotPassword(emailId:\"pritishinde34@gmail.com\"){message success}}" ,
 
-    "resetPassword" : "mutation {resetPassword(password:\"9623946752\"){message success} }",
+    "resetPassword" : "mutation {resetPassword(password:\"9623946752\") Headers(authorization:\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElkIjoicHJpdGlzaGluZGUzNEBnbWFpbC5jb20iLCJpYXQiOjE1OTAzOTAwODMsImV4cCI6MTU5MDM5MzY4M30.UZaRLd-dmdgwEqEDXNpVCt8cuemDr-kzKAGyFg7ZT3A\") {message success} }",
 
     "register" : "mutation {register(firstName:\"priti\" lastName:\"shinde\" emailId:\"shinde@gmail.com\" password:\"shinde123\") {message success}"
-
-    
+  
 
 }
 

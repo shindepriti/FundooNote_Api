@@ -29,6 +29,7 @@ type Query {
     message : String!
     getAllUser : [User]
     getUserById(id:ID!) : User
+    getUserByName(firstName:String):[User]
 }
 
 type Mutation {
